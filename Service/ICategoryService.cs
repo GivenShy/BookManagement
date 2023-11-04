@@ -8,5 +8,6 @@ namespace Service
 {
     public interface ICategoryService
     {
+        void create(string name);
     }
 }

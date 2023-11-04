@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
-    public interface ICategoryService
+    public interface ICategoryRepository
     {
         void save(Category category);
     }

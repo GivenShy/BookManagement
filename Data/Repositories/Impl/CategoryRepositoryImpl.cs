@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories.Impl
 {
-    public class CategoryRepositoryImpl:ICategoryService
+    public class CategoryRepositoryImpl:ICategoryRepository
     {
         private readonly BookManagementContext _context;
         public CategoryRepositoryImpl(BookManagementContext context)
