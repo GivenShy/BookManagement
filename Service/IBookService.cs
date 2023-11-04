@@ -14,5 +14,6 @@ namespace Service
         public Task<bool> saveBookAsync(CreateBookDTO request);
         public Task<List<BookDTO>> search(string search);
         public void delete(int id);
+        void update(UpdateBookDTO updateBookDTO);
     }
 }

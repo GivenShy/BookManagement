@@ -13,7 +13,7 @@ namespace Data.Repositories.Impl
     {
         private readonly BookManagementContext _context;
 
-        BookRepositoryImpl(BookManagementContext context)
+        public BookRepositoryImpl(BookManagementContext context)
         {
             _context = context;
         }
@@ -26,6 +26,7 @@ namespace Data.Repositories.Impl
                 throw new ArgumentException("The book with this id does not exist");
             }
             _context.Books.Remove(book);
+            _context.SaveChanges();
         }
 
         public Task<List<Book>> getAllBooks()
@@ -56,6 +57,26 @@ namespace Data.Repositories.Impl
             EF.Functions.Like(obj.Author, search) ||
             EF.Functions.Like(obj.Title, search) ||
             EF.Functions.Like(obj.Content, search)).ToListAsync();
+        }
+
+        public async void update(Book book)
+        {
+            Book b = _context.Books.SingleOrDefault(b=>b.Id == book.Id);
+            if (b == null)
+            {
+                throw new ArgumentException("Book with this id does not exist");
+            }
+            b.Title = book.Title;
+            b.Content = book.Content;
+            b.Author = book.Author;
+            Category c = _context.Categories.SingleOrDefault(c => c.Name == book.CategoryName);
+            if(c == null)
+            {
+                throw new ArgumentException("This category does not exist");
+            }
+            b.Category = book.Category;
+            await _context.SaveChangesAsync();
+            
         }
     }
 }

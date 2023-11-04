@@ -1,6 +1,7 @@
 ﻿using DTO.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Service;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,7 +51,7 @@ namespace BookManagement.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> search([FromQuery][Required] string searchString)
         {
-            return null;
+            return Ok(await _bookService.search(searchString));
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> delete(int id)
@@ -64,8 +65,33 @@ namespace BookManagement.Controllers
                 _bookService.delete(id);
             }catch(ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult update([FromForm] UpdateBookDTO updateBookDTO)
+        {
+            if (updateBookDTO.PdfFile == null || updateBookDTO.PdfFile.Length == 0)
+                return BadRequest("PDF file is not provided or empty.");
+            if (updateBookDTO.PdfFile.Length > 5 * 1024 * 1024)
+            {
+                return BadRequest("Provide smaller file");
+            }
+            if (!updateBookDTO.PdfFile.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("The uploaded file is not a PDF.");
+            }
+
+            try 
+            {
+                _bookService.update(updateBookDTO);
+            }catch(ArgumentException ex)
+            {
+                return NotFound(ex);
+            }
+           
             return Ok();
         }
     }

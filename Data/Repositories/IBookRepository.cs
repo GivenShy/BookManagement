@@ -15,5 +15,6 @@ namespace Data.Repositories
         public Task<List<Book>> getAllBooksAsync(int page,int pageSize);
         public Task<List<Book>> search(string search); 
         public void delete(int id);
+        public void update(Book book);
     }
 }

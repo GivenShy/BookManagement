@@ -88,6 +88,11 @@ namespace Service.Impl
             });
         }
 
+        public void update(UpdateBookDTO updateBookDTO)
+        {
+            _bookRepository.update(convert(updateBookDTO));            
+        }
+
         private BookDTO convert(Book book)
         {
             BookDTO bookDTO = new BookDTO();
@@ -98,6 +103,18 @@ namespace Service.Impl
             bookDTO.Category = book.CategoryName;
             return bookDTO;
 
+        }
+        private Book convert(UpdateBookDTO bookDTO)
+        {
+            Book book = new Book();
+            book.Id = bookDTO.Id;
+            book.Title = bookDTO.Title;
+            book.Author = bookDTO.Author;
+            using(var stream = bookDTO.PdfFile.OpenReadStream())
+            {
+                book.Content = ExtractTextFromPdf(stream);
+            }
+            return book;
         }
 
         private string ExtractTextFromPdf(Stream pdfStream)
