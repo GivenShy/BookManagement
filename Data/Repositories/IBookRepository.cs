@@ -14,5 +14,6 @@ namespace Data.Repositories
         public Task saveAsync(Book book);
         public Task<List<Book>> getAllBooksAsync(int page,int pageSize);
         public Task<List<Book>> search(string search); 
+        public void delete(int id);
     }
 }

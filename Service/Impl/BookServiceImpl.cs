@@ -25,6 +25,11 @@ namespace Service.Impl
             _categoryRepository = categoryRepository;
         }
 
+        public void delete(int id)
+        {
+            _bookRepository.delete(id);
+        }
+
         public async Task<List<BookDTO>> GetPage(int page, int pageSize)
         {
             List<Book> books;
@@ -41,13 +46,7 @@ namespace Service.Impl
                 List<BookDTO> res = new List<BookDTO>(books.Count);
                 foreach (var book in books)
                 {
-                    BookDTO bookDTO = new BookDTO();
-                    bookDTO.Id = book.Id;
-                    bookDTO.Title = book.Title;
-                    bookDTO.Content = book.Content;
-                    bookDTO.Author = book.Author;
-                    bookDTO.Category = book.CategoryName;
-                    res.Add(bookDTO);
+                    res.Add(convert(book));
                 }
                 return res;
             });
@@ -73,6 +72,32 @@ namespace Service.Impl
             book.Content = result.ToString();
             await _bookRepository.saveAsync(book);
             return true;
+        }
+
+        public async Task<List<BookDTO>> search(string search)
+        {
+            List<Book> books = await _bookRepository.search(search); 
+            return await Task<List<BookDTO>>.Factory.StartNew(() =>
+            {
+                List<BookDTO> res = new List<BookDTO>(books.Count);
+                foreach (var book in books)
+                {
+                    res.Add(convert(book));
+                }
+                return res;
+            });
+        }
+
+        private BookDTO convert(Book book)
+        {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.Id = book.Id;
+            bookDTO.Title = book.Title;
+            bookDTO.Content = book.Content;
+            bookDTO.Author = book.Author;
+            bookDTO.Category = book.CategoryName;
+            return bookDTO;
+
         }
 
         private string ExtractTextFromPdf(Stream pdfStream)

@@ -51,6 +51,22 @@ namespace BookManagement.Controllers
         public async Task<IActionResult> search([FromQuery][Required] string searchString)
         {
             return null;
-        }           
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> delete(int id)
+        {
+            if (id < 0)
+            {
+                return BadRequest("Book by this Id does not exist");
+            }
+            try
+            {
+                _bookService.delete(id);
+            }catch(ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok();
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace Service
     {
         public Task<List<BookDTO>> GetPage(int page, int pageSize);
         public Task<bool> saveBookAsync(CreateBookDTO request);
+        public Task<List<BookDTO>> search(string search);
+        public void delete(int id);
     }
 }

@@ -18,6 +18,16 @@ namespace Data.Repositories.Impl
             _context = context;
         }
 
+        public void delete(int id)
+        {
+            Book book = _context.Books.FirstOrDefault(x => x.Id == id);
+            if(book == null) 
+            {
+                throw new ArgumentException("The book with this id does not exist");
+            }
+            _context.Books.Remove(book);
+        }
+
         public Task<List<Book>> getAllBooks()
         {
             return _context.Books.ToListAsync();
