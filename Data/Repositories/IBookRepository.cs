@@ -9,8 +9,9 @@ namespace Data.Repositories
 {
     public interface IBookRepository
     {
-        public List<Book> getAllBooks();
+        public Task<List<Book>> getAllBooks();
         public Book getBook(int id);
         public Task saveAsync(Book book);
+        public Task<List<Book>> getAllBooksAsync(int page,int pageSize);
     }
 }

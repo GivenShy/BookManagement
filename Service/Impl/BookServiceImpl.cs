@@ -1,6 +1,7 @@
 ﻿using Data.Entities;
 using Data.Repositories;
 using DTO.Requests;
+using DTO.Response;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System;
@@ -22,6 +23,35 @@ namespace Service.Impl
         {
             _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
+        }
+
+        public async Task<List<BookDTO>> GetPage(int page, int pageSize)
+        {
+            List<Book> books;
+            if(page == 0 && pageSize == 0)
+            {
+                books = await _bookRepository.getAllBooks();
+            }
+            else
+            {
+                books = await _bookRepository.getAllBooksAsync(page, pageSize);
+            }
+            return await Task<List<BookDTO>>.Factory.StartNew(() =>
+            {
+                List<BookDTO> res = new List<BookDTO>(books.Count);
+                foreach (var book in books)
+                {
+                    BookDTO bookDTO = new BookDTO();
+                    bookDTO.Id = book.Id;
+                    bookDTO.Title = book.Title;
+                    bookDTO.Content = book.Content;
+                    bookDTO.Author = book.Author;
+                    bookDTO.Category = book.CategoryName;
+                    res.Add(bookDTO);
+                }
+                return res;
+            });
+            
         }
 
         public async Task<bool> saveBookAsync(CreateBookDTO request)

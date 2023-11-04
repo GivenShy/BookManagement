@@ -14,7 +14,7 @@ namespace BookManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult addCategory([FromQuery(Name = "name")] string name)
+        public IActionResult addCategory([FromBody] string name)
         {
             _categoryService.create(name);
             return Ok();

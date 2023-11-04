@@ -9,11 +9,11 @@ namespace BookManagement.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookService bookService;
+        private readonly IBookService _bookService;
         public BookController(IBookService bookService)
         {
-            this.bookService = bookService;
-            
+            _bookService = bookService;
+
         }
 
         [HttpPost]
@@ -29,11 +29,23 @@ namespace BookManagement.Controllers
             {
                 return BadRequest("The uploaded file is not a PDF.");
             }
-            if (!await bookService.saveBookAsync(request)) {
+            if (!await _bookService.saveBookAsync(request)) {
                 return BadRequest("This category does not exist");
             }
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> getAll([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            if(page < 0 || pageSize < 0)
+            {
+                return BadRequest("Invalid page info");
+            }
+            
+            return Ok(await _bookService.GetPage(page, pageSize));
+        }
+
             
     }
 }

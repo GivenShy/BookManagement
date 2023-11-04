@@ -1,5 +1,6 @@
 ﻿using Data.Context;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,14 @@ namespace Data.Repositories.Impl
             _context = context;
         }
 
-        public List<Book> getAllBooks()
+        public Task<List<Book>> getAllBooks()
         {
-            return _context.Books.ToList();
+            return _context.Books.ToListAsync();
+        }
+
+        public Task<List<Book>> getAllBooksAsync(int page, int pageSize)
+        {
+            return _context.Books.Skip((page-1)*pageSize).Take(pageSize).ToListAsync();
         }
 
         public Book getBook(int id)
