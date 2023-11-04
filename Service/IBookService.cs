@@ -10,10 +10,11 @@ namespace Service
 {
     public interface IBookService
     {
-        public Task<List<BookDTO>> GetPage(int page, int pageSize);
-        public Task<bool> saveBookAsync(CreateBookDTO request);
-        public Task<List<BookDTO>> search(string search);
-        public void delete(int id);
-        void update(UpdateBookDTO updateBookDTO);
+        public Task<List<BookDTO>> GetPageAsync(int page, int pageSize);
+        public Task<bool> SaveBookAsync(CreateBookDTO request);
+        public Task<List<BookDTO>> SearchAsync(string search);
+        public void Delete(int id);
+        void Update(UpdateBookDTO updateBookDTO);
+        
     }
 }

@@ -15,6 +15,7 @@ namespace Data.Context
 
         public DbSet<Book> Books { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Review> Reviews { get; set; }= null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,6 +28,12 @@ namespace Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Review>(entity =>
+            {
+                entity.HasKey(r => new { r.email, r.bookId });
+                entity.HasOne(r => r.book).WithMany(b=>b.Reviews).HasForeignKey(r => r.bookId);
+            });
+
             modelBuilder.Entity<Book>()
              .HasOne(b => b.Category)
              .WithMany(c => c.Books)

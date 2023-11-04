@@ -14,6 +14,7 @@ namespace DTO.Response
         public string Author { get; set; }
         public string Content { get; set; }
         public string Category { get; set; }
+        public double AvgRating { get; set; }
 
     }
 }

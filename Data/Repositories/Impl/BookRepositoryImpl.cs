@@ -52,11 +52,11 @@ namespace Data.Repositories.Impl
 
         public async Task<List<Book>> search(string search)
         {
-            search = "%" + search + "%";
+            search = "%" + search.ToLower() + "%";
             return await _context.Books.Where(obj =>
-            EF.Functions.Like(obj.Author, search) ||
-            EF.Functions.Like(obj.Title, search) ||
-            EF.Functions.Like(obj.Content, search)).ToListAsync();
+            EF.Functions.Like(obj.Author.ToLower(), search) ||
+            EF.Functions.Like(obj.Title.ToLower(), search) ||
+            EF.Functions.Like(obj.Content.ToLower(), search)).ToListAsync();
         }
 
         public async void update(Book book)

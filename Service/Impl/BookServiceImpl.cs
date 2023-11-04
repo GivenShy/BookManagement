@@ -19,18 +19,21 @@ namespace Service.Impl
     {
         private readonly IBookRepository _bookRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public BookServiceImpl(IBookRepository bookRepository, ICategoryRepository categoryRepository)
+        private readonly IReviewRepository _reviewRepository;
+
+        public BookServiceImpl(IBookRepository bookRepository, ICategoryRepository categoryRepository,IReviewRepository reviewRepository)
         {
             _bookRepository = bookRepository;
             _categoryRepository = categoryRepository;
+            _reviewRepository = reviewRepository;
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             _bookRepository.delete(id);
         }
 
-        public async Task<List<BookDTO>> GetPage(int page, int pageSize)
+        public async Task<List<BookDTO>> GetPageAsync(int page, int pageSize)
         {
             List<Book> books;
             if(page == 0 && pageSize == 0)
@@ -53,7 +56,7 @@ namespace Service.Impl
             
         }
 
-        public async Task<bool> saveBookAsync(CreateBookDTO request)
+        public async Task<bool> SaveBookAsync(CreateBookDTO request)
         {
             Category category = _categoryRepository.find(request.Category);
             if (category == null)
@@ -64,17 +67,15 @@ namespace Service.Impl
             book.Author = request.Author;
             book.Title = request.Title;
             book.Category = category;
-            var result = new StringBuilder();
             using(var stream =request.PdfFile.OpenReadStream())
             {
                 book.Content = ExtractTextFromPdf(stream);
             }
-            book.Content = result.ToString();
             await _bookRepository.saveAsync(book);
             return true;
         }
 
-        public async Task<List<BookDTO>> search(string search)
+        public async Task<List<BookDTO>> SearchAsync(string search)
         {
             List<Book> books = await _bookRepository.search(search); 
             return await Task<List<BookDTO>>.Factory.StartNew(() =>
@@ -88,12 +89,12 @@ namespace Service.Impl
             });
         }
 
-        public void update(UpdateBookDTO updateBookDTO)
+        public void Update(UpdateBookDTO updateBookDTO)
         {
             _bookRepository.update(convert(updateBookDTO));            
         }
 
-        private BookDTO convert(Book book)
+        private  BookDTO convert(Book book)
         {
             BookDTO bookDTO = new BookDTO();
             bookDTO.Id = book.Id;
@@ -101,6 +102,7 @@ namespace Service.Impl
             bookDTO.Content = book.Content;
             bookDTO.Author = book.Author;
             bookDTO.Category = book.CategoryName;
+            bookDTO.AvgRating =_reviewRepository.AvgRating(book.Id).Result;
             return bookDTO;
 
         }

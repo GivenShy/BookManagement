@@ -31,7 +31,7 @@ namespace BookManagement.Controllers
             {
                 return BadRequest("The uploaded file is not a PDF.");
             }
-            if (!await _bookService.saveBookAsync(request)) {
+            if (!await _bookService.SaveBookAsync(request)) {
                 return BadRequest("This category does not exist");
             }
             return Ok();
@@ -45,16 +45,16 @@ namespace BookManagement.Controllers
                 return BadRequest("Invalid page info");
             }
             
-            return Ok(await _bookService.GetPage(page, pageSize));
+            return Ok(await _bookService.GetPageAsync(page, pageSize));
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> search([FromQuery][Required] string searchString)
         {
-            return Ok(await _bookService.search(searchString));
+            return Ok(await _bookService.SearchAsync(searchString));
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> delete(int id)
+        public IActionResult Delete(int id)
         {
             if (id < 0)
             {
@@ -62,8 +62,9 @@ namespace BookManagement.Controllers
             }
             try
             {
-                _bookService.delete(id);
-            }catch(ArgumentException ex)
+                _bookService.Delete(id);
+            }
+            catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -71,7 +72,7 @@ namespace BookManagement.Controllers
         }
 
         [HttpPut]
-        public IActionResult update([FromForm] UpdateBookDTO updateBookDTO)
+        public IActionResult Update([FromForm] UpdateBookDTO updateBookDTO)
         {
             if (updateBookDTO.PdfFile == null || updateBookDTO.PdfFile.Length == 0)
                 return BadRequest("PDF file is not provided or empty.");
@@ -86,7 +87,7 @@ namespace BookManagement.Controllers
 
             try 
             {
-                _bookService.update(updateBookDTO);
+                _bookService.Update(updateBookDTO);
             }catch(ArgumentException ex)
             {
                 return NotFound(ex);

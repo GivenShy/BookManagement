@@ -1,5 +1,7 @@
 using Data.Context;
+using Data.Repositories;
 using Data.Repositories.Impl;
+using Service;
 using Service.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,11 +15,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<BookManagementContext>();
-builder.Services.AddSingleton<CategoryRepositoryImpl>();
-builder.Services.AddSingleton<BookRepositoryImpl>();
-builder.Services.AddSingleton<CategoryServiceImpl>();
-builder.Services.AddSingleton<BookServiceImpl>();
-
+builder.Services.AddScoped<ICategoryRepository,CategoryRepositoryImpl>();
+builder.Services.AddScoped<IBookRepository,BookRepositoryImpl>();
+builder.Services.AddScoped<ICategoryService,CategoryServiceImpl>();
+builder.Services.AddScoped<IBookService,BookServiceImpl>();
+builder.Services.AddScoped<IReviewService,ReviewServiceImpl>();
+builder.Services.AddScoped<IReviewRepository,ReviewRepositoryImpl>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

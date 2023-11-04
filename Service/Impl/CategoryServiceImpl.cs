@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Service.Impl
 {
-    public class CategoryServiceImpl
+    public class CategoryServiceImpl:ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -17,7 +17,7 @@ namespace Service.Impl
             _categoryRepository = categoryRepository;
         }
 
-        public void create(string name)
+        public void Create(string name)
         {
             Category category = new Category();
             category.Name = name;
