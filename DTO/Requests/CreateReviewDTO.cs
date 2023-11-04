@@ -6,12 +6,12 @@ namespace DTO.Requests
     {
         public CreateReviewDTO() { }
         [Required]
-        public string email;
+        public string email { get; set; }
         [Required]
-        public int bookId;
+        public int bookId { get; set; }
         [Required]
-        public string comment;
+        public string comment { get; set; }
         [Required]
-        public int rating;
+        public int rating { get; set; }
     }
 }

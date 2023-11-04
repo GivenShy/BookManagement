@@ -17,19 +17,21 @@ namespace BookManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult addReview([FromBody] CreateReviewDTO createReviewDto)
+        public IActionResult AddReview([FromBody]CreateReviewDTO createReviewDto)
         {
+            Console.WriteLine(createReviewDto.comment);
             if(createReviewDto.rating<1 || createReviewDto.rating > 5)
             {
-                return BadRequest("Give valid rating");
+                return BadRequest("Give a valid rating");
             }
             try
             {
                 _reviewService.CreateReview(createReviewDto);
             }
-            catch(ArgumentException ex) 
+            catch(Exception ex) 
             {
-                BadRequest(ex.Message);
+                Console.WriteLine(1234);
+                return BadRequest(ex.Message);
             }
             return Ok();
         }

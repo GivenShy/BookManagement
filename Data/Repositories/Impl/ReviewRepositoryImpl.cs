@@ -23,16 +23,15 @@ namespace Data.Repositories.Impl
             return await _context.Reviews.Where(r => r.BookId == bookId).AverageAsync(r => r.Rating);
         }
 
-        public Task<Review> GetByEmailAndID(string email, int id)
+        public Review GetByEmailAndID(string email, int id)
         {
-            return _context.Reviews.Where(r=>r.email == email&&r.bookId == id).FirstOrDefaultAsync();
+            return _context.Reviews.Where(r => r.Email == email && r.BookId == id).FirstOrDefault();
         }
 
-        public Task Save(Review review)
+        public async Task Save(Review review)
         {
             _context.Reviews.Add(review);
-            return _context.SaveChangesAsync();
-            
+             await _context.SaveChangesAsync();
         }
     }
 }

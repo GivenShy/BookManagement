@@ -38,7 +38,7 @@ namespace BookManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getAll([FromQuery] int page, [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAll([FromQuery] int page, [FromQuery] int pageSize)
         {
             if(page < 0 || pageSize < 0)
             {
@@ -49,7 +49,7 @@ namespace BookManagement.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> search([FromQuery][Required] string searchString)
+        public async Task<IActionResult> Search([FromQuery][Required] string searchString)
         {
             return Ok(await _bookService.SearchAsync(searchString));
         }

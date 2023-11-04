@@ -20,11 +20,11 @@ namespace Service.Impl
             _bookRepository = bookRepository;
         }
 
-        public async void CreateReview(CreateReviewDTO createReviewDto)
+        public void CreateReview(CreateReviewDTO createReviewDto)
         {
-            if( _bookRepository.getBook(createReviewDto.bookId)!=null)  
+            if( _bookRepository.GetBook(createReviewDto.bookId)!=null)  
             {
-                if (await _repository.GetByEmailAndID(createReviewDto.email, createReviewDto.bookId) != null)
+                if (_repository.GetByEmailAndID(createReviewDto.email, createReviewDto.bookId) == null)
                 {
                     Review review = new Review();
                     review.Date = DateTime.Now;
@@ -32,7 +32,7 @@ namespace Service.Impl
                     review.BookId = createReviewDto.bookId;
                     review.Comment = createReviewDto.comment;
                     review.Rating = createReviewDto.rating;
-                    await _repository.Save(review);
+                    _repository.Save(review);
                 }
                 else
                 {

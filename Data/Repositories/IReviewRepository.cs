@@ -9,7 +9,7 @@ namespace Data.Repositories
 {
     public interface IReviewRepository
     {
-        public Task<Review> GetByEmailAndID(string email,int id);
+        public Review GetByEmailAndID(string email,int id);
         public Task Save(Review review);
         public Task<double> AvgRating(int bookId);
     }

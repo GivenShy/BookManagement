@@ -21,7 +21,7 @@ namespace Service.Impl
         {
             Category category = new Category();
             category.Name = name;
-            _categoryRepository.save(category);
+            _categoryRepository.Save(category);
         }
     }
 }

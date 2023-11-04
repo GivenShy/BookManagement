@@ -30,7 +30,7 @@ namespace Service.Impl
 
         public void Delete(int id)
         {
-            _bookRepository.delete(id);
+            _bookRepository.Delete(id);
         }
 
         public async Task<List<BookDTO>> GetPageAsync(int page, int pageSize)
@@ -38,11 +38,11 @@ namespace Service.Impl
             List<Book> books;
             if(page == 0 && pageSize == 0)
             {
-                books = await _bookRepository.getAllBooks();
+                books = await _bookRepository.GetAllBooks();
             }
             else
             {
-                books = await _bookRepository.getAllBooksAsync(page, pageSize);
+                books = await _bookRepository.GetAllBooksAsync(page, pageSize);
             }
             return await Task<List<BookDTO>>.Factory.StartNew(() =>
             {
@@ -58,7 +58,7 @@ namespace Service.Impl
 
         public async Task<bool> SaveBookAsync(CreateBookDTO request)
         {
-            Category category = _categoryRepository.find(request.Category);
+            Category category = _categoryRepository.Find(request.Category);
             if (category == null)
             {
                 return false;     
@@ -71,13 +71,13 @@ namespace Service.Impl
             {
                 book.Content = ExtractTextFromPdf(stream);
             }
-            await _bookRepository.saveAsync(book);
+            await _bookRepository.SaveAsync(book);
             return true;
         }
 
         public async Task<List<BookDTO>> SearchAsync(string search)
         {
-            List<Book> books = await _bookRepository.search(search); 
+            List<Book> books = await _bookRepository.Search(search); 
             return await Task<List<BookDTO>>.Factory.StartNew(() =>
             {
                 List<BookDTO> res = new List<BookDTO>(books.Count);
@@ -91,7 +91,7 @@ namespace Service.Impl
 
         public void Update(UpdateBookDTO updateBookDTO)
         {
-            _bookRepository.update(convert(updateBookDTO));            
+            _bookRepository.Update(convert(updateBookDTO));            
         }
 
         private  BookDTO convert(Book book)

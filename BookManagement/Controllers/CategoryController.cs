@@ -14,7 +14,7 @@ namespace BookManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult addCategory([FromBody] string name)
+        public IActionResult AddCategory([FromBody] string name)
         {
             _categoryService.Create(name);
             return Ok();

@@ -9,7 +9,7 @@ namespace Data.Repositories
 {
     public interface ICategoryRepository
     {
-        void save(Category category);
-        public Category find(string name);
+        void Save(Category category);
+        public Category Find(string name);
     }
 }

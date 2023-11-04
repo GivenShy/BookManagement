@@ -9,12 +9,12 @@ namespace Data.Repositories
 {
     public interface IBookRepository
     {
-        public Task<List<Book>> getAllBooks();
-        public Book getBook(int id);
-        public Task saveAsync(Book book);
-        public Task<List<Book>> getAllBooksAsync(int page,int pageSize);
-        public Task<List<Book>> search(string search); 
-        public void delete(int id);
-        public void update(Book book);
+        public Task<List<Book>> GetAllBooks();
+        public Book GetBook(int id);
+        public Task SaveAsync(Book book);
+        public Task<List<Book>> GetAllBooksAsync(int page,int pageSize);
+        public Task<List<Book>> Search(string search); 
+        public void Delete(int id);
+        public void Update(Book book);
     }
 }

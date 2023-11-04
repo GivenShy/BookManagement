@@ -30,8 +30,8 @@ namespace Data.Context
         {
             modelBuilder.Entity<Review>(entity =>
             {
-                entity.HasKey(r => new { r.email, r.bookId });
-                entity.HasOne(r => r.book).WithMany(b=>b.Reviews).HasForeignKey(r => r.bookId);
+                entity.HasKey(r => new { r.Email, r.BookId });
+                entity.HasOne(r => r.Book).WithMany(b=>b.Reviews).HasForeignKey(r => r.BookId);
             });
 
             modelBuilder.Entity<Book>()

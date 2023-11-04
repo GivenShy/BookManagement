@@ -18,7 +18,7 @@ namespace Data.Repositories.Impl
             _context = context;
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             Book book = _context.Books.FirstOrDefault(x => x.Id == id);
             if(book == null) 
@@ -29,28 +29,28 @@ namespace Data.Repositories.Impl
             _context.SaveChanges();
         }
 
-        public Task<List<Book>> getAllBooks()
+        public Task<List<Book>> GetAllBooks()
         {
             return _context.Books.ToListAsync();
         }
 
-        public Task<List<Book>> getAllBooksAsync(int page, int pageSize)
+        public Task<List<Book>> GetAllBooksAsync(int page, int pageSize)
         {
             return _context.Books.Skip((page-1)*pageSize).Take(pageSize).ToListAsync();
         }
 
-        public Book getBook(int id)
+        public Book GetBook(int id)
         {
             return _context.Books.SingleOrDefault(book => book.Id == id);
         }
 
-        public async Task saveAsync(Book book)
+        public async Task SaveAsync(Book book)
         {
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Book>> search(string search)
+        public async Task<List<Book>> Search(string search)
         {
             search = "%" + search.ToLower() + "%";
             return await _context.Books.Where(obj =>
@@ -59,7 +59,7 @@ namespace Data.Repositories.Impl
             EF.Functions.Like(obj.Content.ToLower(), search)).ToListAsync();
         }
 
-        public async void update(Book book)
+        public async void Update(Book book)
         {
             Book b = _context.Books.SingleOrDefault(b=>b.Id == book.Id);
             if (b == null)
