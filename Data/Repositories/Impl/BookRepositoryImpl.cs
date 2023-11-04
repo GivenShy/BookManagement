@@ -38,5 +38,14 @@ namespace Data.Repositories.Impl
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Book>> search(string search)
+        {
+            search = "%" + search + "%";
+            return await _context.Books.Where(obj =>
+            EF.Functions.Like(obj.Author, search) ||
+            EF.Functions.Like(obj.Title, search) ||
+            EF.Functions.Like(obj.Content, search)).ToListAsync();
+        }
     }
 }

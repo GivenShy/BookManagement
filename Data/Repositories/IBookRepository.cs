@@ -13,5 +13,6 @@ namespace Data.Repositories
         public Book getBook(int id);
         public Task saveAsync(Book book);
         public Task<List<Book>> getAllBooksAsync(int page,int pageSize);
+        public Task<List<Book>> search(string search); 
     }
 }

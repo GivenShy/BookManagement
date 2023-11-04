@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookManagement.Controllers
 {
@@ -46,6 +47,10 @@ namespace BookManagement.Controllers
             return Ok(await _bookService.GetPage(page, pageSize));
         }
 
-            
+        [HttpGet("search")]
+        public async Task<IActionResult> search([FromQuery][Required] string searchString)
+        {
+            return null;
+        }           
     }
 }
