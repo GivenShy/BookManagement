@@ -19,6 +19,13 @@ namespace Data.Repositories.Impl
         public void save(Category category)
         {
             _context.Categories.Add(category);
+            _context.SaveChanges();
+        }
+
+        public Category find(string name)
+        {
+            return _context.Categories.Where(c => c.Name == name).FirstOrDefault();
+
         }
     }
 }

@@ -13,7 +13,8 @@ namespace Data.Entities
         public string Title { get; set; }
         public string Author { get; set; }
         public string Content { get; set; }
-        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+
         public Category Category { get; set; }
     }
 }

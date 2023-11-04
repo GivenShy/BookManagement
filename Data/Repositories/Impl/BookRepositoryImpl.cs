@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories.Impl
 {
-    public class BookRepositoryImpl:IBookRepository
+    public class BookRepositoryImpl : IBookRepository
     {
         private readonly BookManagementContext _context;
 
@@ -17,14 +17,20 @@ namespace Data.Repositories.Impl
             _context = context;
         }
 
-        public IEnumerable<Book> getAllBooks()
+        public List<Book> getAllBooks()
         {
-            return _context.Books;
+            return _context.Books.ToList();
         }
 
         public Book getBook(int id)
         {
             return _context.Books.SingleOrDefault(book => book.Id == id);
+        }
+
+        public async Task saveAsync(Book book)
+        {
+            await _context.Books.AddAsync(book);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Data.Context
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server=localhost;Database=BookManagement;Trusted_Connection=True;");
+
             }
         }
 
@@ -29,17 +30,16 @@ namespace Data.Context
             modelBuilder.Entity<Book>()
              .HasOne(b => b.Category)
              .WithMany(c => c.Books)
-             .HasForeignKey(b => b.CategoryId);
+             .HasForeignKey(b => b.CategoryName);
 
 
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasMany(r => r.Books)
                 .WithOne(b => b.Category)
-                .HasForeignKey(r => r.CategoryId);
+                .HasForeignKey(r => r.CategoryName);
 
-                entity.HasIndex(c => c.Name).IsUnique();
-                entity.HasKey(c => c.Id);
+                entity.HasKey(c => c.Name);
             }
             );
 
